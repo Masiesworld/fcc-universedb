@@ -87,11 +87,34 @@ ALTER SEQUENCE public.galaxy_galaxy_id_seq OWNED BY public.galaxy.galaxy_id;
 CREATE TABLE public.galaxy_star (
     galaxy_id integer,
     star_id integer,
-    name character varying(30) NOT NULL
+    name character varying(30) NOT NULL,
+    galaxy_star_id integer NOT NULL
 );
 
 
 ALTER TABLE public.galaxy_star OWNER TO freecodecamp;
+
+--
+-- Name: galaxy_star_galaxy_star_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
+
+CREATE SEQUENCE public.galaxy_star_galaxy_star_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.galaxy_star_galaxy_star_id_seq OWNER TO freecodecamp;
+
+--
+-- Name: galaxy_star_galaxy_star_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+--
+
+ALTER SEQUENCE public.galaxy_star_galaxy_star_id_seq OWNED BY public.galaxy_star.galaxy_star_id;
+
 
 --
 -- Name: moon; Type: TABLE; Schema: public; Owner: freecodecamp
@@ -213,6 +236,13 @@ ALTER TABLE ONLY public.galaxy ALTER COLUMN galaxy_id SET DEFAULT nextval('publi
 
 
 --
+-- Name: galaxy_star galaxy_star_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.galaxy_star ALTER COLUMN galaxy_star_id SET DEFAULT nextval('public.galaxy_star_galaxy_star_id_seq'::regclass);
+
+
+--
 -- Name: moon moon_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
 --
 
@@ -237,84 +267,78 @@ ALTER TABLE ONLY public.star ALTER COLUMN star_id SET DEFAULT nextval('public.st
 -- Data for Name: galaxy; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-COPY public.galaxy (name, galaxy_id, description, age, distance_to_earth) FROM stdin;
-Milky way	2	Our place	10000	324234
-Cloud way	3	Beautiful places	34343534	909
-Metallic cloud	4	\N	76351324	13412
-Starship	1	\N	898998	\N
-N	5	bi	343	222
-Ni	6	NIUBI	9999	2333
-\.
+INSERT INTO public.galaxy VALUES ('Milky way', 2, 'Our place', 10000, 324234);
+INSERT INTO public.galaxy VALUES ('Cloud way', 3, 'Beautiful places', 34343534, 909);
+INSERT INTO public.galaxy VALUES ('Metallic cloud', 4, NULL, 76351324, 13412);
+INSERT INTO public.galaxy VALUES ('Starship', 1, NULL, 898998, NULL);
+INSERT INTO public.galaxy VALUES ('N', 5, 'bi', 343, 222);
+INSERT INTO public.galaxy VALUES ('Ni', 6, 'NIUBI', 9999, 2333);
 
 
 --
 -- Data for Name: galaxy_star; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-COPY public.galaxy_star (galaxy_id, star_id, name) FROM stdin;
-\.
+INSERT INTO public.galaxy_star VALUES (1, 2, 'tell me', 1);
+INSERT INTO public.galaxy_star VALUES (2, 2, 'Wonder girls', 2);
+INSERT INTO public.galaxy_star VALUES (3, 1, 'Twice', 3);
+INSERT INTO public.galaxy_star VALUES (4, 2, 'TTT', 4);
 
 
 --
 -- Data for Name: moon; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-COPY public.moon (moon_id, planet_id, name, has_life, funky) FROM stdin;
-1	2	Futuristic night	t	\N
-2	1	Sailor Moon	f	\N
-3	1	Funky funk	f	\N
-4	4	Acid jazz	t	\N
-5	5	hip hop	t	\N
-6	1	bass pop	f	\N
-7	2	Metalic	f	\N
-8	12	Empowering	f	\N
-9	11	Rainy lofi	t	\N
-10	10	Afro jazz	f	\N
-11	9	lofi soundtrack	f	\N
-12	8	Jpop	f	\N
-13	7	Kpop	f	\N
-14	6	Man-pop	f	\N
-15	5	Spritual	t	\N
-16	4	Latin	f	\N
-17	3	Arab	f	\N
-18	2	Piano soundtracks	f	\N
-19	12	Anime soundtrack	t	\N
-20	12	composition	f	\N
-\.
+INSERT INTO public.moon VALUES (1, 2, 'Futuristic night', true, NULL);
+INSERT INTO public.moon VALUES (2, 1, 'Sailor Moon', false, NULL);
+INSERT INTO public.moon VALUES (3, 1, 'Funky funk', false, NULL);
+INSERT INTO public.moon VALUES (4, 4, 'Acid jazz', true, NULL);
+INSERT INTO public.moon VALUES (5, 5, 'hip hop', true, NULL);
+INSERT INTO public.moon VALUES (6, 1, 'bass pop', false, NULL);
+INSERT INTO public.moon VALUES (7, 2, 'Metalic', false, NULL);
+INSERT INTO public.moon VALUES (8, 12, 'Empowering', false, NULL);
+INSERT INTO public.moon VALUES (9, 11, 'Rainy lofi', true, NULL);
+INSERT INTO public.moon VALUES (10, 10, 'Afro jazz', false, NULL);
+INSERT INTO public.moon VALUES (11, 9, 'lofi soundtrack', false, NULL);
+INSERT INTO public.moon VALUES (12, 8, 'Jpop', false, NULL);
+INSERT INTO public.moon VALUES (13, 7, 'Kpop', false, NULL);
+INSERT INTO public.moon VALUES (14, 6, 'Man-pop', false, NULL);
+INSERT INTO public.moon VALUES (15, 5, 'Spritual', true, NULL);
+INSERT INTO public.moon VALUES (16, 4, 'Latin', false, NULL);
+INSERT INTO public.moon VALUES (17, 3, 'Arab', false, NULL);
+INSERT INTO public.moon VALUES (18, 2, 'Piano soundtracks', false, NULL);
+INSERT INTO public.moon VALUES (19, 12, 'Anime soundtrack', true, NULL);
+INSERT INTO public.moon VALUES (20, 12, 'composition', false, NULL);
 
 
 --
 -- Data for Name: planet; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-COPY public.planet (planet_id, name, age, color, star_id) FROM stdin;
-1	Cookley	2010	Violet	6
-2	Sonair	20089	Maroon	5
-3	Kanlam	19922	Navy	4
-4	Finstone	19090	Mauv	3
-5	Biodex	1997	Yellow	2
-6	Alpha	2009	Khaki	1
-7	Y-find	20045	Teal	2
-8	Cardify	9403	Pink	2
-9	Tres-zap	5848	Aquamarine	3
-10	IT	4343	Green	4
-11	Sub	43949	Indigo	5
-12	Opelax	34343	Fuscia	1
-\.
+INSERT INTO public.planet VALUES (1, 'Cookley', 2010, 'Violet', 6);
+INSERT INTO public.planet VALUES (2, 'Sonair', 20089, 'Maroon', 5);
+INSERT INTO public.planet VALUES (3, 'Kanlam', 19922, 'Navy', 4);
+INSERT INTO public.planet VALUES (4, 'Finstone', 19090, 'Mauv', 3);
+INSERT INTO public.planet VALUES (5, 'Biodex', 1997, 'Yellow', 2);
+INSERT INTO public.planet VALUES (6, 'Alpha', 2009, 'Khaki', 1);
+INSERT INTO public.planet VALUES (7, 'Y-find', 20045, 'Teal', 2);
+INSERT INTO public.planet VALUES (8, 'Cardify', 9403, 'Pink', 2);
+INSERT INTO public.planet VALUES (9, 'Tres-zap', 5848, 'Aquamarine', 3);
+INSERT INTO public.planet VALUES (10, 'IT', 4343, 'Green', 4);
+INSERT INTO public.planet VALUES (11, 'Sub', 43949, 'Indigo', 5);
+INSERT INTO public.planet VALUES (12, 'Opelax', 34343, 'Fuscia', 1);
 
 
 --
 -- Data for Name: star; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-COPY public.star (star_id, name, has_life, age, distance_to_earth, galaxy_id) FROM stdin;
-1	Mu	f	10000	\N	2
-2	Huang	t	200000	3000000	1
-3	Ming	f	200	2000	2
-4	Gray langur	t	1008	90232	1
-5	Blue winged shark	f	2010	99631	2
-6	Giant lizard	f	2005	994245	6
-\.
+INSERT INTO public.star VALUES (1, 'Mu', false, 10000, NULL, 2);
+INSERT INTO public.star VALUES (2, 'Huang', true, 200000, 3000000, 1);
+INSERT INTO public.star VALUES (3, 'Ming', false, 200, 2000, 2);
+INSERT INTO public.star VALUES (4, 'Gray langur', true, 1008, 90232, 1);
+INSERT INTO public.star VALUES (5, 'Blue winged shark', false, 2010, 99631, 2);
+INSERT INTO public.star VALUES (6, 'Giant lizard', false, 2005, 994245, 6);
 
 
 --
@@ -322,6 +346,13 @@ COPY public.star (star_id, name, has_life, age, distance_to_earth, galaxy_id) FR
 --
 
 SELECT pg_catalog.setval('public.galaxy_galaxy_id_seq', 6, true);
+
+
+--
+-- Name: galaxy_star_galaxy_star_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.galaxy_star_galaxy_star_id_seq', 4, true);
 
 
 --
@@ -366,7 +397,7 @@ ALTER TABLE ONLY public.galaxy
 --
 
 ALTER TABLE ONLY public.galaxy_star
-    ADD CONSTRAINT galaxy_star_pkey PRIMARY KEY (name);
+    ADD CONSTRAINT galaxy_star_pkey PRIMARY KEY (galaxy_star_id);
 
 
 --
@@ -415,6 +446,22 @@ ALTER TABLE ONLY public.star
 
 ALTER TABLE ONLY public.star
     ADD CONSTRAINT star_star_id_key UNIQUE (star_id);
+
+
+--
+-- Name: galaxy_star galaxy_star_galaxy_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.galaxy_star
+    ADD CONSTRAINT galaxy_star_galaxy_id_fkey FOREIGN KEY (galaxy_id) REFERENCES public.galaxy(galaxy_id);
+
+
+--
+-- Name: galaxy_star galaxy_star_star_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.galaxy_star
+    ADD CONSTRAINT galaxy_star_star_id_fkey FOREIGN KEY (star_id) REFERENCES public.star(star_id);
 
 
 --
