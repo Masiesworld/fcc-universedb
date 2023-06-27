@@ -393,6 +393,14 @@ ALTER TABLE ONLY public.galaxy
 
 
 --
+-- Name: galaxy_star galaxy_star_galaxy_star_id_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.galaxy_star
+    ADD CONSTRAINT galaxy_star_galaxy_star_id_key UNIQUE (galaxy_star_id);
+
+
+--
 -- Name: galaxy_star galaxy_star_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
@@ -491,4 +499,5 @@ ALTER TABLE ONLY public.star
 --
 -- PostgreSQL database dump complete
 --
+
 
